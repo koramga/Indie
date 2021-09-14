@@ -3,10 +3,9 @@
 
 #include "GameInfo.h"
 
-GameInfo::GameInfo()
-{
-}
+DEFINE_LOG_CATEGORY(UE8)
 
-GameInfo::~GameInfo()
+void PrintViewport(float Duration, const FColor& Color, const FString& strText)
 {
+	GEngine->AddOnScreenDebugMessage(-1, Duration, Color, strText);
 }
