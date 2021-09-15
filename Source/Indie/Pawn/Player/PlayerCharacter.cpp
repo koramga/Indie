@@ -3,6 +3,7 @@
 
 #include "PlayerCharacter.h"
 #include "Animation/PlayerAnimInstance.h"
+#include "../../Controller/User/UserPlayerController.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -33,6 +34,8 @@ void APlayerCharacter::BeginPlay()
 	//m_PlayerAnimInstance->SetPlayerWeaponType(EPlayerWeaponType::Lance);
 
 	GetCharacterMovement()->MaxWalkSpeed = 100.f;
+
+	m_DilationToggle = false;
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
@@ -80,17 +83,17 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 	if (0.f == m_Speed)
 	{
-		m_PlayerAnimInstance->SetPawnCharacterAnimType(EPawnCharacterAnimType::Idle);
+		m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Idle);
 	}
 	else
 	{
 		if (EToggleWalkAndRun::Walk == m_ToggleWalkAndRun)
 		{
-			m_PlayerAnimInstance->SetPawnCharacterAnimType(EPawnCharacterAnimType::Walk);
+			m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Walk);
 		}
 		else if (EToggleWalkAndRun::Run == m_ToggleWalkAndRun)
 		{
-			m_PlayerAnimInstance->SetPawnCharacterAnimType(EPawnCharacterAnimType::Run);
+			m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Run);
 		}
 	}
 
@@ -108,6 +111,15 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAction(TEXT("ToggleWalkAndRun"), EInputEvent::IE_Pressed,
 		this, &APlayerCharacter::__InputToggleWalkAndRun);
+
+	PlayerInputComponent->BindAction(TEXT("ToggleKey"), EInputEvent::IE_Pressed,
+		this, &APlayerCharacter::__InputToggleKey);
+
+	PlayerInputComponent->BindAction(TEXT("DefenceKey"), EInputEvent::IE_Pressed,
+		this, &APlayerCharacter::__InputDefenceKey);
+
+	PlayerInputComponent->BindAction(TEXT("AttackKey"), EInputEvent::IE_Pressed,
+		this, &APlayerCharacter::__InputAttackKey);
 	//PlayerInputComponent->BindAction(TEXT("Attack01"), EInputEvent::IE_Pressed,
 	//	this, &ADragonCharacter::__Attack01);
 	//PlayerInputComponent->BindAction(TEXT("Attack02"), EInputEvent::IE_Pressed,
@@ -150,6 +162,34 @@ void APlayerCharacter::__InputToggleWalkAndRun()
 
 		GetCharacterMovement()->MaxWalkSpeed = 100.f;
 	}
+}
+
+void APlayerCharacter::__InputToggleKey()
+{
+	m_DilationToggle = !m_DilationToggle;
+
+	if (m_DilationToggle)
+	{
+		GetWorldSettings()->SetTimeDilation(1.f);
+	}
+	else
+	{
+		GetWorldSettings()->SetTimeDilation(0.5f);
+	}
+}
+
+void APlayerCharacter::__InputDefenceKey()
+{
+	//PLAYERCONTROLLER->CameraShake();
+	//UGameplayStatics::PlayWorldCameraShake(GetWorld(), )
+
+
+	PrintViewport(1.f, FColor::Red, TEXT("DefenceKey"));
+}
+
+void APlayerCharacter::__InputAttackKey()
+{
+	PrintViewport(1.f, FColor::Red, TEXT("AttackKey"));
 }
 
 void APlayerCharacter::AddArmPitch(float Value)

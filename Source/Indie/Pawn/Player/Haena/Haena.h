@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "../../../GameInfo.h"
 #include "../PlayerCharacter.h"
 #include "Haena.generated.h"
 

@@ -6,7 +6,12 @@
 
 AUserPlayerController::AUserPlayerController()
 {
+	static ConstructorHelpers::FClassFinder<UMatineeCameraShake> CameraShake(TEXT("Blueprint'/Game/Indie/Camera/BPCameraShake.BPCameraShake_C'"));
 
+	if (CameraShake.Succeeded())
+	{
+		m_CameraShake = CameraShake.Class;
+	}
 }
 
 void AUserPlayerController::BeginPlay()
@@ -62,6 +67,12 @@ void AUserPlayerController::PlayerTick(float DeltaTime)
 	UpdateRotation(DeltaTime);
 
 	//LOG(TEXT("DeltaMouseXY : %.2f, %.2f"), fDeltaX, fDeltaY);
+}
+
+void AUserPlayerController::CameraShake()
+{
+	LOG(TEXT("Call Camera Shake"));
+	ClientPlayCameraShake(m_CameraShake);
 }
 
 void AUserPlayerController::SetupInputComponent()

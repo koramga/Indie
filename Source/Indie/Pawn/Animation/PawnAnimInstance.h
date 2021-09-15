@@ -19,7 +19,7 @@ public :
 
 protected :
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
-	EPawnCharacterAnimType	m_PawnCharacterAnimType;
+	EPawnAnimType	m_PawnAnimType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
 	float				m_Speed;
@@ -28,12 +28,18 @@ protected :
 	float				m_Angle;
 
 public :
-	virtual void SetPawnCharacterAnimType(EPawnCharacterAnimType PawnCharacterAnimType);
+	virtual void SetPawnAnimType(EPawnAnimType PawnAnimType);
 	void SetAngle(float Angle);
 	void SetSpeed(float Speed);
 
 public :
-	virtual EPawnCharacterAnimType GetPawnCharacterAnimType() const;
+	virtual EPawnAnimType GetPawnAnimType() const;
 	float GetAngle() const;
 	float GetSpeed() const;
+
+public :
+	virtual void AddEndAnimationState(EPawnAnimType AnimType);
+	virtual void SetEndAnimationState(EPawnAnimType AnimType, EPawnAnimType NextAnimType = EPawnAnimType::Idle);
+	virtual void ResetAnimationState(EPawnAnimType AnimType);
+	virtual void SetAnimationStateEndCount(EPawnAnimType AnimType, int32 Count);
 };

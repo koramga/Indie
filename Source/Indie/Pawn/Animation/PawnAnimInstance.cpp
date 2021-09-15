@@ -5,12 +5,12 @@
 
 UPawnAnimInstance::UPawnAnimInstance()
 {
-	m_PawnCharacterAnimType = EPawnCharacterAnimType::Idle;
+	m_PawnAnimType = EPawnAnimType::Idle;
 }
 
-void UPawnAnimInstance::SetPawnCharacterAnimType(EPawnCharacterAnimType PawnCharacterAnimType)
+void UPawnAnimInstance::SetPawnAnimType(EPawnAnimType PawnAnimType)
 {
-	m_PawnCharacterAnimType = PawnCharacterAnimType;
+	m_PawnAnimType = PawnAnimType;
 }
 
 void UPawnAnimInstance::SetAngle(float Angle)
@@ -23,9 +23,9 @@ void UPawnAnimInstance::SetSpeed(float Speed)
 	m_Speed = Speed;
 }
 
-EPawnCharacterAnimType UPawnAnimInstance::GetPawnCharacterAnimType() const
+EPawnAnimType UPawnAnimInstance::GetPawnAnimType() const
 {
-	return m_PawnCharacterAnimType;
+	return m_PawnAnimType;
 }
 
 float UPawnAnimInstance::GetAngle() const
@@ -36,4 +36,24 @@ float UPawnAnimInstance::GetAngle() const
 float UPawnAnimInstance::GetSpeed() const
 {
 	return m_Speed;
+}
+
+void UPawnAnimInstance::AddEndAnimationState(EPawnAnimType AnimType)
+{
+
+}
+
+void UPawnAnimInstance::SetEndAnimationState(EPawnAnimType AnimType, EPawnAnimType NextAnimType)
+{
+
+}
+
+void UPawnAnimInstance::ResetAnimationState(EPawnAnimType AnimType)
+{
+
+}
+
+void UPawnAnimInstance::SetAnimationStateEndCount(EPawnAnimType AnimType, int32 Count)
+{
+
 }

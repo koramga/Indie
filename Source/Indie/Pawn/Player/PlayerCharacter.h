@@ -42,6 +42,9 @@ protected :
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
 	float m_Angle;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
+	bool m_DilationToggle;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -57,6 +60,9 @@ private :
 	void __InputMoveForwardBack(float Scale);
 	void __InputMoveLeftRight(float Scale);
 	void __InputToggleWalkAndRun();
+	void __InputToggleKey();
+	void __InputDefenceKey();
+	void __InputAttackKey();
 
 public :
 	void AddArmPitch(float Value);

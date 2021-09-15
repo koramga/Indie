@@ -2,15 +2,16 @@
 
 #pragma once
 
+
 #include "../../../../GameInfo.h"
 #include "../../Animation/PlayerAnimInstance.h"
-#include "HeavyLancerAnimInstance.generated.h"
+#include "MannequinAnimInstance.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class INDIE_API UHeavyLancerAnimInstance : public UPlayerAnimInstance
+class INDIE_API UMannequinAnimInstance : public UPlayerAnimInstance
 {
 	GENERATED_BODY()
 	

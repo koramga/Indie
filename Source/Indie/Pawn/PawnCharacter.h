@@ -15,6 +15,10 @@ public:
 	// Sets default values for this character's properties
 	APawnCharacter();
 
+protected :
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
+	class UPawnAnimInstance* m_PawnAnimInstance;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -23,4 +27,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+public :
+	EPawnAnimType GetPawnAnimType() const;
+
+public :
+	virtual void AddEndAnimationState(EPawnAnimType PawnCharacterAnimType);
+	virtual void SetEndAnimationState(EPawnAnimType PawnCharacterAnimType);
+	virtual void ResetAnimationState(EPawnAnimType PawnCharacterAnimType);
+	virtual void SetAnimationStateEndCount(EPawnAnimType PawnCharacterAnimType, int32 Count);
 };

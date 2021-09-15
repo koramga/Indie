@@ -2,28 +2,29 @@
 
 #pragma once
 
-#include "../../../GameInfo.h"
 #include "../PlayerCharacter.h"
-#include "HeavyLancerCharacter.generated.h"
+#include "Mannequin.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class INDIE_API AHeavyLancerCharacter : public APlayerCharacter
+class INDIE_API AMannequin : public APlayerCharacter
 {
 	GENERATED_BODY()
 
-public:
-	// Sets default values for this character's properties
-	AHeavyLancerCharacter();
+public :
+	AMannequin();
 
-protected:
+protected :
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
-	UStaticMeshComponent* m_Shield;
+	USkeletalMesh*	m_MaleSkeletalMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
-	UStaticMeshComponent* m_Lance;
+	USkeletalMesh*	m_FemalSkeletalMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
+	EGender			m_Gender;
 
 protected:
 	// Called when the game starts or when spawned
@@ -32,5 +33,4 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	
 };
