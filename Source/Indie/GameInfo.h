@@ -27,6 +27,7 @@ enum class EPawnAnimType : uint8
 	Run,
 	Death,
 	Defence,
+	Max,
 };
 
 UENUM(BlueprintType)

@@ -81,21 +81,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 		//PrintViewport(1.f, FColor::Red, FString::Printf(TEXT("%.2f %.2f"), m_Angle, m_Speed));
 	}
 
-	if (0.f == m_Speed)
-	{
-		m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Idle);
-	}
-	else
-	{
-		if (EToggleWalkAndRun::Walk == m_ToggleWalkAndRun)
-		{
-			m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Walk);
-		}
-		else if (EToggleWalkAndRun::Run == m_ToggleWalkAndRun)
-		{
-			m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Run);
-		}
-	}
+	UpdateMoveAnimation();
 
 	m_PlayerAnimInstance->SetSpeed(m_Speed);
 	m_PlayerAnimInstance->SetAngle(m_Angle);
@@ -127,24 +113,89 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 }
 
+bool APlayerCharacter::CanMove()
+{
+	EPawnAnimType PawnAnimType = m_PlayerAnimInstance->GetPawnAnimType();
+
+	if (EPawnAnimType::Idle == PawnAnimType
+		|| EPawnAnimType::Walk == PawnAnimType
+		|| EPawnAnimType::Run == PawnAnimType)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void APlayerCharacter::UpdateMoveAnimation()
+{
+	EPawnAnimType PawnAnimType = m_PlayerAnimInstance->GetPawnAnimType();
+
+	if (m_Speed > 0.f)
+	{
+		if (EPawnAnimType::Idle == PawnAnimType)
+		{
+			if (EToggleWalkAndRun::Walk == m_ToggleWalkAndRun)
+			{
+				m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Walk);
+			}
+			else if (EToggleWalkAndRun::Run == m_ToggleWalkAndRun)
+			{
+				m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Run);
+			}
+		}
+		else if (EPawnAnimType::Run == PawnAnimType)
+		{
+			if (EToggleWalkAndRun::Walk == m_ToggleWalkAndRun)
+			{
+				m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Walk);
+			}
+		}
+		else if (EPawnAnimType::Walk == PawnAnimType)
+		{
+			if (EToggleWalkAndRun::Run == m_ToggleWalkAndRun)
+			{
+				m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Run);
+			}
+		}
+	}
+	else
+	{
+		if (EPawnAnimType::Walk == PawnAnimType
+			|| EPawnAnimType::Run == PawnAnimType)
+		{
+			m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Idle);
+		}
+	}
+}
+
 void APlayerCharacter::__InputMoveForwardBack(float Scale)
 {
-	AddMovementInput(GetActorForwardVector(), Scale);
+	if (CanMove())
+	{
+		UpdateMoveAnimation();
+		AddMovementInput(GetActorForwardVector(), Scale);
+	}
 }
 
 void APlayerCharacter::__InputMoveLeftRight(float Scale)
 {
-	if (Scale != 0.f)
+	if (CanMove())
 	{
-		FVector vForwardVector = GetActorForwardVector();
+		UpdateMoveAnimation();
 
-		const FRotator rot(0.f, 90 * Scale, 0.f);
+		if (Scale != 0.f)
+		{
+			FVector vForwardVector = GetActorForwardVector();
 
-		FVector vResult = rot.RotateVector(vForwardVector);
+			const FRotator rot(0.f, 90 * Scale, 0.f);
 
-		//PrintViewport(1.f, FColor::Red, FString::Printf(TEXT("%.2f, %.2f, %.2f : %.2f, %.2f, %.2f"), vForwardVector.X, vForwardVector.Y, vForwardVector.Z, vResult.X, vResult.Y, vResult.Z));
+			FVector vResult = rot.RotateVector(vForwardVector);
 
-		AddMovementInput(vResult);
+			//PrintViewport(1.f, FColor::Red, FString::Printf(TEXT("%.2f, %.2f, %.2f : %.2f, %.2f, %.2f"), vForwardVector.X, vForwardVector.Y, vForwardVector.Z, vResult.X, vResult.Y, vResult.Z));
+
+			AddMovementInput(vResult);
+		}
 	}
 }
 
@@ -162,6 +213,8 @@ void APlayerCharacter::__InputToggleWalkAndRun()
 
 		GetCharacterMovement()->MaxWalkSpeed = 100.f;
 	}
+
+	UpdateMoveAnimation();
 }
 
 void APlayerCharacter::__InputToggleKey()
@@ -183,8 +236,7 @@ void APlayerCharacter::__InputDefenceKey()
 	//PLAYERCONTROLLER->CameraShake();
 	//UGameplayStatics::PlayWorldCameraShake(GetWorld(), )
 
-
-	PrintViewport(1.f, FColor::Red, TEXT("DefenceKey"));
+	m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Defence);
 }
 
 void APlayerCharacter::__InputAttackKey()

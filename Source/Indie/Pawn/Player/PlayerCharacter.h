@@ -67,4 +67,8 @@ private :
 public :
 	void AddArmPitch(float Value);
 	void SetPlayerWeaponType(EPlayerWeaponType PlayerWeaponType);
+
+public :
+	virtual bool CanMove();
+	virtual void UpdateMoveAnimation();
 };

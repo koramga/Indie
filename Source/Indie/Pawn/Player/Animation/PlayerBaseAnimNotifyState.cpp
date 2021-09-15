@@ -6,6 +6,8 @@
 
 void UPlayerBaseAnimNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration)
 {
+	AddEndAnimationSequence(TEXT("HeavyLancer_defence"));
+
 	Super::NotifyBegin(MeshComp, Animation, TotalDuration);
 }
 

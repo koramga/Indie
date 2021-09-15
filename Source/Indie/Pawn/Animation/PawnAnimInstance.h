@@ -3,6 +3,7 @@
 #pragma once
 
 #include "../../GameInfo.h"
+#include "PawnAnimState.h"
 #include "Animation/AnimInstance.h"
 #include "PawnAnimInstance.generated.h"
 
@@ -27,8 +28,15 @@ protected :
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
 	float				m_Angle;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
+	UPawnAnimState*		m_PawnAnimState;
+
+public:
+	virtual void NativeInitializeAnimation();
+	virtual void NativeUpdateAnimation(float DeltaSeconds);
+
 public :
-	virtual void SetPawnAnimType(EPawnAnimType PawnAnimType);
+	virtual void SetPawnAnimType(EPawnAnimType PawnAnimType, bool EndAnimationStateOffset = false);
 	void SetAngle(float Angle);
 	void SetSpeed(float Speed);
 
@@ -38,8 +46,8 @@ public :
 	float GetSpeed() const;
 
 public :
-	virtual void AddEndAnimationState(EPawnAnimType AnimType);
-	virtual void SetEndAnimationState(EPawnAnimType AnimType, EPawnAnimType NextAnimType = EPawnAnimType::Idle);
-	virtual void ResetAnimationState(EPawnAnimType AnimType);
-	virtual void SetAnimationStateEndCount(EPawnAnimType AnimType, int32 Count);
+	virtual void AddEndAnimationState(EPawnAnimType PawnAnimType);
+	virtual void SetEndAnimationState(EPawnAnimType PawnAnimType, EPawnAnimType NextPawnAnimType = EPawnAnimType::Idle);
+	virtual void ResetAnimationState(EPawnAnimType PawnAnimType);
+	virtual void SetAnimationStateEndCount(EPawnAnimType PawnAnimType, int32 Count);
 };
