@@ -138,12 +138,15 @@ void UPawnAnimInstance::SetComboType(int32 ComboType)
 {
 	if (EPawnAnimType::Attack != m_PawnAnimType)
 	{
-		if (m_ComboType != ComboType)
-		{
-			PrintViewport(1.f, FColor::Red, FString::Printf(TEXT("%d"), ComboType));
-		}
-
 		m_ComboType = ComboType;
+	}
+}
+
+void UPawnAnimInstance::SetDirection(EDirection Direction)
+{
+	if (EPawnAnimType::Avoid != m_PawnAnimType)
+	{
+		m_Direction = Direction;
 	}
 }
 
@@ -172,6 +175,11 @@ int32 UPawnAnimInstance::GetComboType() const
 	return m_ComboType;
 }
 
+EDirection UPawnAnimInstance::GetDirection() const
+{
+	return m_Direction;
+}
+
 void UPawnAnimInstance::AddEndAnimationState(EPawnAnimType PawnAnimType)
 {
 	m_PawnAnimState->AddEndAnimationState(PawnAnimType);
@@ -183,11 +191,7 @@ void UPawnAnimInstance::SetEndAnimationState(EPawnAnimType PawnAnimType, EPawnAn
 
 	//끝이났으니까
 
-	LOG(TEXT("SetEndAnimationState"));
-
 	SetPawnAnimType(NextPawnAnimType, true);
-
-	LOG(TEXT("PawnAnimType : <%d>"), static_cast<int32>(m_PawnAnimType));
 }
 
 void UPawnAnimInstance::ResetAnimationState(EPawnAnimType PawnAnimType)

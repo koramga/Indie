@@ -41,6 +41,9 @@ protected :
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
 	UPawnAnimCombo*		m_PawnAnimCombo;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
+	EDirection			m_Direction;
+
 public:
 	virtual void NativeInitializeAnimation();
 	virtual void NativeUpdateAnimation(float DeltaSeconds);
@@ -62,6 +65,7 @@ public :
 	void SetSpeed(float Speed);
 	void SetAttackType(int32 AttackType);
 	void SetComboType(int32 ComboType);
+	void SetDirection(EDirection Direction);
 
 public :
 	virtual EPawnAnimType GetPawnAnimType() const;
@@ -69,6 +73,7 @@ public :
 	float GetSpeed() const;
 	int32 GetAttackType() const;
 	int32 GetComboType() const;
+	EDirection GetDirection() const;
 
 public :
 	virtual void AddEndAnimationState(EPawnAnimType PawnAnimType);

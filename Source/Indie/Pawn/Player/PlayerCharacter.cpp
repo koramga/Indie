@@ -68,6 +68,27 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAction(TEXT("AttackKey"), EInputEvent::IE_Pressed,
 		this, &APlayerCharacter::__InputAttackKey);
+
+	PlayerInputComponent->BindAction(TEXT("ForwardAvoidKey"), EInputEvent::IE_DoubleClick,
+		this, &APlayerCharacter::__InputForwardAvoidKey);
+
+	PlayerInputComponent->BindAction(TEXT("BackAvoidKey"), EInputEvent::IE_DoubleClick,
+		this, &APlayerCharacter::__InputBackAvoidKey);
+
+	PlayerInputComponent->BindAction(TEXT("LeftAvoidKey"), EInputEvent::IE_DoubleClick,
+		this, &APlayerCharacter::__InputLeftAvoidKey);
+
+	PlayerInputComponent->BindAction(TEXT("RightAvoidKey"), EInputEvent::IE_DoubleClick,
+		this, &APlayerCharacter::__InputRightAvoidKey);
+
+	//PlayerInputComponent->BindAction(TEXT("AttackKey"), EInputEvent::IE_Pressed,
+	//	this, &APlayerCharacter::__InputAttackKey);
+	//
+	//PlayerInputComponent->BindAction(TEXT("AttackKey"), EInputEvent::IE_Pressed,
+	//	this, &APlayerCharacter::__InputAttackKey);
+	//
+	//PlayerInputComponent->BindAction(TEXT("AttackKey"), EInputEvent::IE_Pressed,
+	//	this, &APlayerCharacter::__InputAttackKey);
 	
 	//PlayerInputComponent->BindAction(TEXT("Attack01"), EInputEvent::IE_Pressed,
 	//	this, &ADragonCharacter::__Attack01);
@@ -226,6 +247,30 @@ void APlayerCharacter::__InputAttackKey()
 {
 	//PrintViewport(1.f, FColor::Red, TEXT("AttackKey"));
 	m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Attack);
+}
+
+void APlayerCharacter::__InputForwardAvoidKey()
+{
+	m_PlayerAnimInstance->SetDirection(EDirection::Forward);
+	m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Avoid);
+}
+
+void APlayerCharacter::__InputBackAvoidKey()
+{
+	m_PlayerAnimInstance->SetDirection(EDirection::Back);
+	m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Avoid);
+}
+
+void APlayerCharacter::__InputLeftAvoidKey()
+{
+	m_PlayerAnimInstance->SetDirection(EDirection::Left);
+	m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Avoid);
+}
+
+void APlayerCharacter::__InputRightAvoidKey()
+{
+	m_PlayerAnimInstance->SetDirection(EDirection::Right);
+	m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Avoid);
 }
 
 void APlayerCharacter::AddArmPitch(float Value)

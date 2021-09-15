@@ -14,6 +14,11 @@ void UPlayerBaseAnimNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp, U
 
 	AddEndAnimationSequence(TEXT("MTMannequinHeavyLancerCombo1"));
 
+	AddEndAnimationSequence(TEXT("HeavyLancer_avoid_front"));
+	AddEndAnimationSequence(TEXT("HeavyLancer_avoid_left"));
+	AddEndAnimationSequence(TEXT("HeavyLancer_avoid_right"));
+	AddEndAnimationSequence(TEXT("HeavyLancer_avoid_back"));
+
 	Super::NotifyBegin(MeshComp, Animation, TotalDuration);
 }
 

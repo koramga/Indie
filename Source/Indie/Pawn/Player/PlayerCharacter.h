@@ -59,6 +59,10 @@ private :
 	void __InputToggleKey();
 	void __InputDefenceKey();
 	void __InputAttackKey();
+	void __InputForwardAvoidKey();
+	void __InputBackAvoidKey();
+	void __InputLeftAvoidKey();
+	void __InputRightAvoidKey();
 
 public :
 	void AddArmPitch(float Value);

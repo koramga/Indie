@@ -28,7 +28,7 @@ enum class EPawnAnimType : uint8
 	Death,
 	Defence,
 	Attack,
-	Dash,
+	Avoid,
 	Max,
 };
 

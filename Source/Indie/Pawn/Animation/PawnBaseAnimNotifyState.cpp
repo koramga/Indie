@@ -57,8 +57,6 @@ void UPawnBaseAnimNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp, UAn
 	FString strSequenceName = Animation->GetName();
 	FName SequenceName = FName(*strSequenceName);
 
-	LOG(TEXT("NotifyBegin : %s"), *SequenceName.ToString());
-
 	m_HasLoopAnimation = false;
 	m_HasEndAnimation = false;
 
@@ -124,11 +122,6 @@ void UPawnBaseAnimNotifyState::NotifyTick(USkeletalMeshComponent* MeshComp, UAni
 void UPawnBaseAnimNotifyState::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
 {
 	Super::NotifyEnd(MeshComp, Animation);
-
-	if (IsValid(Animation))
-	{
-		LOG(TEXT("NotifyEnd : %s"), *Animation->GetName());
-	}
 
 	if (m_HasEndAnimation)
 	{
