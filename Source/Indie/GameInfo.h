@@ -27,6 +27,8 @@ enum class EPawnAnimType : uint8
 	Run,
 	Death,
 	Defence,
+	Attack,
+	Dash,
 	Max,
 };
 
@@ -38,6 +40,15 @@ enum class EPawnAnimState : uint8
 	CountEnd,
 	End,
 	Max,
+};
+
+UENUM(BlueprintType)
+enum class EDirection : uint8
+{
+	Left,
+	Right,
+	Forward,
+	Back,
 };
 
 UENUM(BlueprintType)

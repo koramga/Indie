@@ -37,12 +37,6 @@ protected :
 	EToggleWalkAndRun	m_ToggleWalkAndRun;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
-	float m_Speed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
-	float m_Angle;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
 	bool m_DilationToggle;
 
 protected:
@@ -59,6 +53,8 @@ public:
 private :
 	void __InputMoveForwardBack(float Scale);
 	void __InputMoveLeftRight(float Scale);
+	void __InputAttackTypeKey(float Scale);
+	void __InputComboTypeKey(float Scale);
 	void __InputToggleWalkAndRun();
 	void __InputToggleKey();
 	void __InputDefenceKey();

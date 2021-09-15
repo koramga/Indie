@@ -24,6 +24,49 @@ void APawnCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	UCharacterMovementComponent* pMovement = GetCharacterMovement();
+
+	FVector vForward = GetActorForwardVector();
+	FVector vVelocity = pMovement->Velocity;
+
+	m_Speed = vVelocity.Size();
+
+	if (m_Speed > 0)
+	{
+		//https://amored8701.tistory.com/132
+
+		vForward.Z = 0.f;
+		vVelocity.Z = 0.f;
+
+		vForward.Normalize();
+		vVelocity.Normalize();
+
+		float fDot = FVector::DotProduct(vForward, vVelocity);
+		float fAcosAngle = FMath::Acos(fDot);
+		float fAngle = FMath::RadiansToDegrees(fAcosAngle);
+
+		//if (fDot < -0.3f)
+		//{
+		//	m_Speed *= -1.f;
+		//}
+
+		FVector vCross = FVector::CrossProduct(vForward, vVelocity);
+
+		if (vCross.Z < 0)
+		{
+			//fAngle *= -1.f;
+			fAngle = 360 - fAngle;
+		}
+
+		m_Angle = fAngle;
+
+		//PrintViewport(1.f, FColor::Red, FString::Printf(TEXT("%.2f %.2f"), m_Angle, m_Speed));
+	}
+
+	m_PawnAnimInstance->SetSpeed(m_Speed);
+	m_PawnAnimInstance->SetAngle(m_Angle);
+	m_PawnAnimInstance->SetAttackType(m_AttackType);
+	m_PawnAnimInstance->SetComboType(m_ComboType);
 }
 
 EPawnAnimType APawnCharacter::GetPawnAnimType() const

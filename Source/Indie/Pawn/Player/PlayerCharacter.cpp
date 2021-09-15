@@ -19,6 +19,8 @@ APlayerCharacter::APlayerCharacter()
 	//Arm을 Root에 붙여준다.
 	m_Arm->SetupAttachment(RootComponent);
 
+	//
+
 	//Camera를 Arm에 붙여준다.
 	m_Camera->SetupAttachment(m_Arm);
 }
@@ -42,49 +44,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	UCharacterMovementComponent* pMovement = GetCharacterMovement();
-
-	FVector vForward = GetActorForwardVector();
-	FVector vVelocity = pMovement->Velocity;
-
-	m_Speed = vVelocity.Size();
-
-	if (m_Speed > 0)
-	{
-		//https://amored8701.tistory.com/132
-
-		vForward.Z = 0.f;
-		vVelocity.Z = 0.f;
-
-		vForward.Normalize();
-		vVelocity.Normalize();
-
-		float fDot = FVector::DotProduct(vForward, vVelocity);
-		float fAcosAngle = FMath::Acos(fDot);
-		float fAngle = FMath::RadiansToDegrees(fAcosAngle);
-
-		//if (fDot < -0.3f)
-		//{
-		//	m_Speed *= -1.f;
-		//}
-
-		FVector vCross = FVector::CrossProduct(vForward, vVelocity);
-
-		if (vCross.Z < 0)
-		{
-			//fAngle *= -1.f;
-			fAngle = 360 - fAngle;
-		}
-
-		m_Angle = fAngle;
-
-		//PrintViewport(1.f, FColor::Red, FString::Printf(TEXT("%.2f %.2f"), m_Angle, m_Speed));
-	}
-
 	UpdateMoveAnimation();
-
-	m_PlayerAnimInstance->SetSpeed(m_Speed);
-	m_PlayerAnimInstance->SetAngle(m_Angle);
 }
 
 // Called to bind functionality to input
@@ -94,6 +54,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAxis(TEXT("MoveForwardBack"), this, &APlayerCharacter::__InputMoveForwardBack);
 	PlayerInputComponent->BindAxis(TEXT("MoveLeftRight"), this, &APlayerCharacter::__InputMoveLeftRight);
+	PlayerInputComponent->BindAxis(TEXT("AttackTypeKey"), this, &APlayerCharacter::__InputAttackTypeKey);
+	PlayerInputComponent->BindAxis(TEXT("ComboTypeKey"), this, &APlayerCharacter::__InputComboTypeKey);
 
 	PlayerInputComponent->BindAction(TEXT("ToggleWalkAndRun"), EInputEvent::IE_Pressed,
 		this, &APlayerCharacter::__InputToggleWalkAndRun);
@@ -106,6 +68,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAction(TEXT("AttackKey"), EInputEvent::IE_Pressed,
 		this, &APlayerCharacter::__InputAttackKey);
+	
 	//PlayerInputComponent->BindAction(TEXT("Attack01"), EInputEvent::IE_Pressed,
 	//	this, &ADragonCharacter::__Attack01);
 	//PlayerInputComponent->BindAction(TEXT("Attack02"), EInputEvent::IE_Pressed,
@@ -199,6 +162,26 @@ void APlayerCharacter::__InputMoveLeftRight(float Scale)
 	}
 }
 
+void APlayerCharacter::__InputAttackTypeKey(float Scale)
+{
+	m_AttackType = static_cast<int32>(Scale);
+
+	if (m_AttackType > 0)
+	{
+		m_AttackType--;
+	}
+}
+
+void APlayerCharacter::__InputComboTypeKey(float Scale)
+{
+	m_ComboType = static_cast<int32>(Scale);
+
+	if (m_ComboType > 0)
+	{
+		m_ComboType--;
+	}
+}
+
 void APlayerCharacter::__InputToggleWalkAndRun()
 {
 	if (EToggleWalkAndRun::Walk == m_ToggleWalkAndRun)
@@ -241,7 +224,8 @@ void APlayerCharacter::__InputDefenceKey()
 
 void APlayerCharacter::__InputAttackKey()
 {
-	PrintViewport(1.f, FColor::Red, TEXT("AttackKey"));
+	//PrintViewport(1.f, FColor::Red, TEXT("AttackKey"));
+	m_PlayerAnimInstance->SetPawnAnimType(EPawnAnimType::Attack);
 }
 
 void APlayerCharacter::AddArmPitch(float Value)
